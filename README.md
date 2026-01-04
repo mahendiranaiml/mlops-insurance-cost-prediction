@@ -40,7 +40,7 @@ Medical_Insurance_Cost/
 └── README.md                   # This file
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Installation
 
@@ -170,5 +170,6 @@ zenml init
 This project is for educational purposes.
 
 ## 👤 Author
+
 
 Created as an MLOps learning project using ZenML.
