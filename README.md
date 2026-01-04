@@ -92,6 +92,11 @@ pip install -r requirements.txt
 zenml login --local
 python run.py
 
+🎯 Key Takeaways
+Built a real MLOps system, not just a notebook
+Implemented strict artifact typing & validation
+Learned how pipeline compilation differs from runtime execution
+Understood production-level debugging in ML workflows
 
 
 
