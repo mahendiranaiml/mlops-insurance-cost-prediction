@@ -1,175 +1,97 @@
-# 🏥 Medical Insurance Cost Prediction
+# Insurance Cost Prediction — ZenML MLOps Pipeline
 
-A professional MLOps project using ZenML to predict medical insurance costs based on patient information.
+This repository contains a **production-grade end-to-end MLOps pipeline** built using **ZenML** for predicting insurance costs.
 
-## 📋 Project Overview
+The project demonstrates how to design, train, evaluate, and register machine learning models using **best MLOps practices**, including reproducibility, modularity, and experiment tracking.
 
-This project builds a machine learning pipeline to predict insurance costs using features like:
-- Age
-- Sex
-- BMI (Body Mass Index)
-- Number of children
-- Smoking status
-- Region
+---
 
-## 🗂️ Project Structure
+## Project Overview
 
-```
-Medical_Insurance_Cost/
-│
-├── data/
-│   ├── raw/                    # Original insurance.csv
-│   └── processed/              # Processed data (auto-generated)
+The pipeline performs the following steps:
+
+1. **Data Ingestion**
+   - Loads and validates raw insurance data
+   - Tracks dataset as a versioned artifact
+
+2. **Data Preprocessing**
+   - Train–test split
+   - Numerical scaling using `StandardScaler`
+   - Categorical encoding using `OneHotEncoder`
+   - Implemented via `ColumnTransformer`
+
+3. **Model Selection**
+   - Automated model selection using **Optuna**
+   - Compares:
+     - Linear Regression
+     - Random Forest Regressor
+   - Uses cross-validated RMSE for optimization
+
+4. **Model Training**
+   - Trains the best model on processed data
+
+5. **Model Evaluation**
+   - Metrics:
+     - RMSE
+     - MAE
+     - R² score
+
+6. **Model Registration**
+   - Registers model only if RMSE meets a defined quality threshold
+
+All steps are orchestrated and tracked using **ZenML**.
+
+---
+
+## Tech Stack
+
+- **Python 3.12**
+- **ZenML**
+- **Scikit-learn**
+- **Optuna**
+- **Pandas / NumPy**
+- **Git & GitHub**
+
+---
+## Project Structure
+mlops-insurance/
 │
 ├── src/
-│   ├── steps/                  # Individual pipeline steps
-│   │   ├── data_loader.py      # Load data
-│   │   ├── data_preprocessor.py # Preprocess data
-│   │   ├── model_trainer.py    # Train model
-│   │   └── model_evaluator.py  # Evaluate model
-│   │
-│   └── pipelines/
-│       └── training_pipeline.py # Main pipeline
+│ ├── steps/
+│ │ ├── data_loader.py
+│ │ ├── data_preprocessor.py
+│ │ ├── model_selection.py
+│ │ ├── model_trainer.py
+│ │ ├── model_evaluator.py
+│ │ └── register_model.py
+│ │
+│ └── pipelines/
+│ └── training_pipeline.py
+│
+├── data/
+│ └── raw/
+│ └── insurance.csv
 │
 ├── config/
-│   └── config.yaml             # Configuration file
-│
-├── notebooks/                  # Jupyter notebooks
-├── run.py                      # Main execution script
-├── requirements.txt            # Python dependencies
-└── README.md                   # This file
+├── notebooks/
+├── run.py
+├── requirements.txt
+└── README.md
 
 
-## Quick Start
+---
 
-### 1. Installation
+## ▶️ How to Run the Pipeline
+
+### Create and activate virtual environment
 
 ```bash
-# Clone the repository
-cd Medical_Insurance_Cost
-
-# Create virtual environment (recommended)
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-
-# Initialize ZenML
-zenml init
-```
-
-### 2. Prepare Data
-
-Place your `insurance.csv` file in the `data/raw/` folder:
-```
-data/raw/insurance.csv
-```
-
-### 3. Run Pipeline
-
-```bash
+zenml login --local
 python run.py
-```
-
-## 📊 Pipeline Steps
-
-The pipeline consists of 4 main steps:
-
-1. **Data Loading** (`data_loader.py`)
-   - Loads insurance data from CSV
-   - Validates data structure
-   - Displays basic statistics
-
-2. **Data Preprocessing** (`data_preprocessor.py`)
-   - Handles missing values
-   - Encodes categorical variables (sex, smoker, region)
-   - Splits into train/test sets (80/20)
-   - Scales numerical features
-
-3. **Model Training** (`model_trainer.py`)
-   - Trains Random Forest Regressor
-   - Uses 100 trees with max depth of 10
-   - Outputs training R² score
-
-4. **Model Evaluation** (`model_evaluator.py`)
-   - Calculates RMSE, MAE, R² Score, MAPE
-   - Shows sample predictions
-   - Provides performance interpretation
-
-## 🎯 Model Performance
-
-Expected metrics:
-- **R² Score**: ~0.75-0.85 (model explains 75-85% of variance)
-- **RMSE**: ~$4,000-$6,000 (average prediction error)
-- **MAE**: ~$2,500-$4,000 (average absolute error)
-
-## 🔧 Configuration
-
-Edit `config/config.yaml` to change pipeline parameters:
-
-```yaml
-preprocessing:
-  test_size: 0.2        # Change test set size
-  
-model:
-  n_estimators: 100     # Number of trees
-  max_depth: 10         # Tree depth
-```
-
-## 📈 Next Steps
-
-1. **View Pipeline in ZenML Dashboard**
-   ```bash
-   zenml up
-   ```
-
-2. **Experiment with Hyperparameters**
-   - Modify `config/config.yaml`
-   - Try different models (XGBoost, Linear Regression)
-
-3. **Feature Engineering**
-   - Create new features (age groups, BMI categories)
-   - Feature importance analysis
-
-4. **Model Deployment**
-   - Save model for inference
-   - Create prediction API
-   - Deploy to production
-
-## 🛠️ Troubleshooting
-
-### Common Issues
-
-**1. Module not found error**
-```bash
-# Make sure you're in the project root
-cd Medical_Insurance_Cost
-python run.py
-```
-
-**2. Data file not found**
-```bash
-# Ensure data is in correct location
-ls data/raw/insurance.csv
-```
-
-**3. ZenML not initialized**
-```bash
-zenml init
-```
-
-## 📚 Learn More
-
-- [ZenML Documentation](https://docs.zenml.io/)
-- [Scikit-learn Documentation](https://scikit-learn.org/)
-- [MLOps Best Practices](https://ml-ops.org/)
-
-## 📝 License
-
-This project is for educational purposes.
-
-## 👤 Author
 
 
-Created as an MLOps learning project using ZenML.
+
+
