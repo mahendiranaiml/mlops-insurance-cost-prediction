@@ -1,0 +1,30 @@
+# Configuration file for Insurance Cost Prediction Pipeline
+
+# Data Configuration
+data:
+  raw_data_path: "data/raw/insurance.csv"
+  processed_data_path: "data/processed/"
+
+# Preprocessing Configuration
+preprocessing:
+  test_size: 0.2
+  random_state: 42
+  
+# Model Configuration
+model:
+  type: "RandomForestRegressor"
+  n_estimators: 100
+  max_depth: 10
+  random_state: 42
+  
+# Training Configuration
+training:
+  verbose: true
+  
+# Evaluation Configuration
+evaluation:
+  metrics:
+    - "rmse"
+    - "mae"
+    - "r2_score"
+    - "mape"

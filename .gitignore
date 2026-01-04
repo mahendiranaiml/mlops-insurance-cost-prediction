@@ -1,0 +1,18 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.pyc
+
+# Data
+data/
+mlruns/
+
+# Notebook junk
+.ipynb_checkpoints/
+
+# Secrets
+.env
