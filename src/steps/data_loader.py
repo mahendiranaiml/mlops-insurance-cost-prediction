@@ -4,14 +4,9 @@ import pandas as pd
 from zenml import step
 from typing_extensions import Annotated
 
-# ===============================
-# Logger Configuration
-# ===============================
+
 logger = logging.getLogger(__name__)
 
-# ===============================
-# 1️⃣ Abstract Interface (Contract)
-# ===============================
 
 class DataLoader(ABC):
     """Abstract base class for all data loaders"""
@@ -22,9 +17,6 @@ class DataLoader(ABC):
         pass
 
 
-# ===============================
-# 2️⃣ Concrete Implementation
-# ===============================
 
 class CSVDataLoader(DataLoader):
     """Loads data from a CSV file"""
@@ -60,9 +52,6 @@ class CSVDataLoader(DataLoader):
             raise
 
 
-# ===============================
-# 3️⃣ ZenML Step Wrapper
-# ===============================
 
 @step
 def ingest_data(file_path: str) -> Annotated[pd.DataFrame, "raw_data"]:
@@ -72,3 +61,4 @@ def ingest_data(file_path: str) -> Annotated[pd.DataFrame, "raw_data"]:
     loader = CSVDataLoader(file_path)
     df = loader.load()
     return df
+
