@@ -1,10 +1,9 @@
-# Insurance Cost Prediction — ZenML MLOps Pipeline
+# Insurance Cost Prediction ZenML MLOps Pipeline
 
 This repository contains a **production-grade end-to-end MLOps pipeline** built using **ZenML** for predicting insurance costs.
 
 The project demonstrates how to design, train, evaluate, and register machine learning models using **best MLOps practices**, including reproducibility, modularity, and experiment tracking.
 
----
 
 ## Project Overview
 
@@ -40,8 +39,6 @@ The pipeline performs the following steps:
    - Registers model only if RMSE meets a defined quality threshold
 
 All steps are orchestrated and tracked using **ZenML**.
-
----
 
 ## Tech Stack
 
@@ -79,8 +76,6 @@ mlops-insurance/
 └── README.md
 
 
----
-
 ## ▶️ How to Run the Pipeline
 
 ### Create and activate virtual environment
@@ -97,6 +92,7 @@ Built a real MLOps system, not just a notebook
 Implemented strict artifact typing & validation
 Learned how pipeline compilation differs from runtime execution
 Understood production-level debugging in ML workflows
+
 
 
 
