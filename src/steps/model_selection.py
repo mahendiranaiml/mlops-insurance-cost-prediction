@@ -54,7 +54,7 @@ class OptunaModelSelector(ModelSelector):
             return score
 
         study = optuna.create_study(direction="maximize")
-        study.optimize(objective, n_trials=30)
+        study.optimize(objective, n_trials=60)
 
         best_params = study.best_params
 
@@ -74,10 +74,16 @@ def select_best_model(
     X_train,
     y_train,
 ) -> Tuple[
-    Annotated[BaseEstimator, "best_model"],
+    Annotated[str, "model_name"],
     Annotated[Dict, "best_params"],
     Annotated[float, "best_score"],
 ]:
-
     selector = OptunaModelSelector()
-    return selector.optimize(X_train, y_train)
+    best_model, best_params, best_score = selector.optimize(X_train, y_train)
+
+    model_name = (
+        "linear" if isinstance(best_model, LinearRegression) else "rf"
+    )
+
+    return model_name, best_params, best_score
+

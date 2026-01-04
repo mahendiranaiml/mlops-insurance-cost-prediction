@@ -6,6 +6,8 @@ from sklearn.pipeline import Pipeline
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from zenml import step
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
 from typing_extensions import Annotated
 
 logger = logging.getLogger(__name__)
@@ -131,16 +133,13 @@ def preprocess_data(
     Annotated[pd.DataFrame, "X_test"],
     Annotated[pd.Series, "y_train"],
     Annotated[pd.Series, "y_test"],
-    Annotated[object, "preprocessing_pipeline"],
 ]:
     preprocessor = TrainTestPreprocessor()
 
     X_train, X_test, y_train, y_test = preprocessor.split(df)
 
-    pipeline = preprocessor.build_pipeline()
-
     X_train, X_test = preprocessor.fit_transform(X_train, X_test)
 
-    return X_train, X_test, y_train, y_test, pipeline
+    return X_train, X_test, y_train, y_test
 
 
