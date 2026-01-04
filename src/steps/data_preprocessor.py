@@ -12,10 +12,6 @@ from typing_extensions import Annotated
 
 logger = logging.getLogger(__name__)
 
-# ===============================
-# 1️⃣ Abstract Preprocessor
-# ===============================
-
 class Preprocessor(ABC):
     """
     Abstract base class for preprocessing steps.
@@ -43,9 +39,6 @@ class Preprocessor(ABC):
         pass
 
 
-# ===============================
-# 2️⃣ Concrete Implementation
-# ===============================
 class TrainTestPreprocessor(Preprocessor):
 
     def __init__(self):
@@ -54,9 +47,6 @@ class TrainTestPreprocessor(Preprocessor):
         self.num_cols = ["age", "bmi", "children"]
         self.cat_cols = ["sex", "smoker", "region"]
 
-    # -----------------------------
-    # 1️⃣ Split Data
-    # -----------------------------
     def split(
         self, df: pd.DataFrame
     ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
@@ -72,9 +62,6 @@ class TrainTestPreprocessor(Preprocessor):
 
         return X_train, X_test, y_train, y_test
 
-    # -----------------------------
-    # 2️⃣ Build sklearn Pipeline
-    # -----------------------------
     def build_pipeline(self) -> Pipeline:
 
         numeric_pipeline = Pipeline(
@@ -100,9 +87,6 @@ class TrainTestPreprocessor(Preprocessor):
 
         return self.pipeline
 
-    # -----------------------------
-    # 3️⃣ Fit & Transform
-    # -----------------------------
     def fit_transform(
         self,
         X_train: pd.DataFrame,
@@ -120,11 +104,6 @@ class TrainTestPreprocessor(Preprocessor):
         return X_train_transformed, X_test_transformed
 
 
-
-# ===============================
-# 3️⃣ ZenML Step Wrapper
-# ===============================
-
 @step
 def preprocess_data(
     df: pd.DataFrame,
@@ -141,5 +120,6 @@ def preprocess_data(
     X_train, X_test = preprocessor.fit_transform(X_train, X_test)
 
     return X_train, X_test, y_train, y_test
+
 
 
